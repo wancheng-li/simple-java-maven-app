@@ -1,6 +1,8 @@
 pipeline{
     agent any
     environment {
+        APP_NAME = "simple-order-app"
+        BUILD_VERSION = "1.0.${BUILD_NUMBER}"
         MAVEN_HOME = "/var/jenkins_home/tools/hudson.tasks.Maven_MavenInstallation/maven-3"
         PATH = "${MAVEN_HOME}/bin:${env.PATH}"
     }
@@ -13,6 +15,13 @@ pipeline{
             }
         }
 
+        stage('Check Java Environment') {
+            steps{
+                echo 'Checking Java Version on Jenkins Agent'
+                sh 'java -version'
+            }
+        }
+        
         stage('Git Checkout') {
             steps{
                 git branch: 'main', url: 'https://github.com/wancheng-li/simple-java-maven-app.git'
@@ -20,12 +29,27 @@ pipeline{
             }
         }
 
+        stage('Run Unit Test') {
+            steps{
+                echo 'Running Junit test cases'
+                sh 'mvn test'
+            }
+        }
+        
         stage('Build with Maven') {
             steps{
                 sh 'mvn clean package'
                 echo "Maven build completed successfully"
             }
         }
+
+        stage('Verify Artifact') {
+            steps{
+                echo 'Listing generated build artifacts'
+                sh 'ls -l target/'
+            }
+        }
+        
     }
 
     post {
