@@ -3,7 +3,7 @@ pipeline{
     stages{
         stage('Install Maven') {
             steps {
-                sh 'mvn -version'
+                sh '/var/jenkins_home/tools/hudson.tasks.Maven_MavenInstallation/maven-3/bin/mvn -version'
                 echo "Maven successfully installed"
             }
         }
@@ -17,7 +17,7 @@ pipeline{
 
         stage('Build with Maven') {
             steps{
-                sh 'mvn clean package'
+                sh '/var/jenkins_home/tools/hudson.tasks.Maven_MavenInstallation/maven-3/bin/mvn clean package'
                 echo "Maven build completed successfully"
             }
         }
