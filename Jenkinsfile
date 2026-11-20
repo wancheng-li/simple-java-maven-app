@@ -4,6 +4,7 @@ pipeline{
         stage('Install Maven') {
             steps {
                 sh '/var/jenkins_home/tools/hudson.tasks.Maven_MavenInstallation/maven-3/bin/mvn -version'
+                whoami
                 echo "Maven successfully installed"
             }
         }
