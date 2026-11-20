@@ -1,9 +1,13 @@
 pipeline{
     agent any
+    environment {
+        MAVEN_HOME = "/var/jenkins_home/tools/hudson.tasks.Maven_MavenInstallation/maven-3"
+        PATH = "${MAVEN_HOME}/bin:${env.PATH}"
+    }
     stages{
         stage('Install Maven') {
             steps {
-                sh '/var/jenkins_home/tools/hudson.tasks.Maven_MavenInstallation/maven-3/bin/mvn -version'
+                sh 'mvn -version'
                 sh 'whoami'
                 echo "Maven successfully installed"
             }
@@ -18,7 +22,7 @@ pipeline{
 
         stage('Build with Maven') {
             steps{
-                sh '/var/jenkins_home/tools/hudson.tasks.Maven_MavenInstallation/maven-3/bin/mvn clean package'
+                sh 'mvn clean package'
                 echo "Maven build completed successfully"
             }
         }
